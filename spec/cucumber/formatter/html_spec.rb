@@ -17,10 +17,16 @@ module Cucumber
           nodes.detect{ |node| node.text =~ regexp }
         end
       end
-    
+
+      RSpec::Matchers.define :not_have_css_node do |css|
+        match do |doc|
+          doc.css(css).empty?
+        end
+      end
+
       before(:each) do
         @out = StringIO.new
-        @formatter = Html.new(step_mother, @out, {})
+        @formatter = Html.new(step_mother, @out, self.class.config_options)
         step_mother.visitor = @formatter
       end
     
@@ -249,6 +255,18 @@ module Cucumber
           it { @doc.css('pre').map { |pre| /^(Given|And)/.match(pre.text)[1] }.should == ["Given", "Given"] }
         end
       
+        describe "with an undefined step and --no-snippets option" do
+          define_config_options(:snippets => false)
+          define_feature(<<-FEATURE)
+          Feature:
+            Scenario:
+              Given some undefined step
+              And another undefined step
+            FEATURE
+
+          it { @doc.should not_have_css_node('.step.undefined pre') }
+        end
+
       end
     end
   end
