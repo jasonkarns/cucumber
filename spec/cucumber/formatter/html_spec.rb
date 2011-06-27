@@ -249,6 +249,18 @@ module Cucumber
           it { @doc.css('pre').map { |pre| /^(Given|And)/.match(pre.text)[1] }.should == ["Given", "Given"] }
         end
       
+        describe "with an undefined step and --no-snippets option" do
+
+          define_feature(<<-FEATURE)
+          Feature:
+            Scenario:
+              Given some undefined step
+              And another undefined step
+            FEATURE
+
+          it { @doc.css('.step.undefined pre').should have(0) }
+        end
+
       end
     end
   end
