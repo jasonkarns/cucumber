@@ -244,7 +244,7 @@ module Cucumber
       def after_step_result(keyword, step_match, multiline_arg, status, exception, source_indent, background)
         return if @hide_this_step
         # print snippet for undefined steps
-        if status == :undefined
+        if status == :undefined and @options[:snippets]
           step_multiline_class = @step.multiline_arg ? @step.multiline_arg.class : nil
           @builder.pre do |pre|
             pre << @step_mother.snippet_text(@step.actual_keyword,step_match.instance_variable_get("@name") || '',step_multiline_class)

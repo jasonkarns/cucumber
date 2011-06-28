@@ -12,6 +12,14 @@ module Cucumber
       def define_steps(&block)
         @step_defs = block
       end
+
+      def define_config_options(options)
+        @config_options = options
+      end
+
+      def config_options
+        {:snippets => true}.merge(@config_options || {})
+      end
     end
 
     module SpecHelper
@@ -24,7 +32,11 @@ module Cucumber
       def step_mother
         @step_mother ||= Runtime.new
       end
-      
+
+      def configuration
+        @configuration ||= Configuration.new(self.class.config_options)
+      end
+
       def load_features(content)
         feature_file = FeatureFile.new(self.class.feature_filename, content)
         features = Ast::Features.new
@@ -35,7 +47,6 @@ module Cucumber
       end
     
       def run(features)
-        configuration = Cucumber::Configuration.default
         tree_walker = Cucumber::Ast::TreeWalker.new(step_mother, [@formatter], configuration)
         tree_walker.visit_features(features)
       end
