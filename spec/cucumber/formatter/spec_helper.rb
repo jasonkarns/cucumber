@@ -13,7 +13,7 @@ module Cucumber
         @step_defs = block
       end
 
-      def define_config_options(options)
+      def config_options=(options)
         @config_options = options
       end
 

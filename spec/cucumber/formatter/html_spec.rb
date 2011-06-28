@@ -256,7 +256,7 @@ module Cucumber
         end
       
         describe "with an undefined step and --no-snippets option" do
-          define_config_options(:snippets => false)
+          config_options= {:snippets => false}
           define_feature(<<-FEATURE)
           Feature:
             Scenario:
