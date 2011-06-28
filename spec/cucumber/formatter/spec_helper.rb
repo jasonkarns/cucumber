@@ -3,22 +3,19 @@ module Cucumber
 
     module SpecHelperDsl
       attr_reader :feature_content, :step_defs, :feature_filename
-    
+      attr_accessor :config_options
+
+      def initialize
+        @config_options = {:snippets => true}
+      end
+
       def define_feature(string, feature_file = 'spec.feature')
         @feature_content = string
         @feature_filename = feature_file
       end
-    
+
       def define_steps(&block)
         @step_defs = block
-      end
-
-      def config_options=(options)
-        @config_options = options
-      end
-
-      def config_options
-        {:snippets => true}.merge(@config_options || {})
       end
     end
 
