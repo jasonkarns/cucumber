@@ -41,7 +41,6 @@ for important information about this release. Happy cuking!
 
   # For Documentation:
   s.add_development_dependency('yard', '= 0.7.1')
-  s.add_development_dependency('rdiscount', '= 1.6.8')
   s.add_development_dependency('bcat', '= 0.6.1')
     
   # Needed for examples (rake examples)
