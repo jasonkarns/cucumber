@@ -77,7 +77,7 @@ module Cucumber
       end
 
       def file=(file)
-        file = file.gsub(/\//, '\\') if Cucumber::WINDOWS && file && !ENV['CUCUMBER_FORWARD_SLASH_PATHS']
+        file = file.gsub(/\//, '\\') if backslash_paths
         @file = file
       end
       
@@ -104,6 +104,12 @@ module Cucumber
         sexp += [@background.to_sexp] if @background
         sexp += @feature_elements.map{|fe| fe.to_sexp}
         sexp
+      end
+      
+      private
+      
+      def backslash_paths
+        Cucumber::WINDOWS && ENV['TERM'] != 'cygwin' && file && !ENV['CUCUMBER_FORWARD_SLASH_PATHS']
       end
     end
   end
